@@ -1,0 +1,11 @@
+################################################################
+# abuse.ch URLhaus Database Dump (CSV - online URLs only)      #
+# Last updated: 2023-04-06 02:35:31 (UTC)                      #
+#                                                              #
+# Terms Of Use: https://urlhaus.abuse.ch/api/                  #
+# For questions please contact urlhaus [at] abuse.ch           #
+################################################################
+#
+# id,dateadded,url,url_status,threat,tags,urlhaus_link,reporter
+"2599210","2023-04-06 02:35:31","http://42.235.68.212:43299/Mozi.m","online","malware_download","elf,Mozi","https://urlhaus.abuse.ch/url/2599210/","lrz_urlhaus"
+"2599211","2023-04-06 02:35:31","http://59.99.133.123:57861/Mozi.m","online","malware_download","elf,Mozi","https://urlhaus.abuse.ch/url/2599211/","lrz_urlhaus"
