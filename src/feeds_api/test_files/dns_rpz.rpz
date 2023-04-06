@@ -1,0 +1,14 @@
+$TTL 30
+@ SOA rpz.urlhaus.abuse.ch. hostmaster.urlhaus.abuse.ch. 2304061510 300 1800 604800 30
+ NS localhost.
+;
+; abuse.ch URLhaus Response Policy Zones (RPZ)
+; Last updated: 2023-04-06 15:10:24 (UTC)
+;
+; Terms Of Use: https://urlhaus.abuse.ch/api/
+; For questions please contact urlhaus [at] abuse.ch
+;
+testentry.rpz.urlhaus.abuse.ch CNAME . ; Test entry for testing URLhaus RPZ
+1008691.com CNAME . ; Malware download (2020-10-21), see https://urlhaus.abuse.ch/host/1008691.com/
+121directmarketing.com CNAME . ; Malware download (2023-04-05), see https://urlhaus.abuse.ch/host/121directmarketing.com/
+; Number of entries: 1193

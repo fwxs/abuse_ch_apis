@@ -1,11 +1,12 @@
 pub mod error;
 pub mod feeds_api;
-pub mod query_api;
+
 
 pub trait WebFetch {
     fn fetch(&self, url: &str) -> Result<String, error::Error>;
 }
 
+#[derive(Default)]
 pub struct HttpReqwest;
 
 impl WebFetch for HttpReqwest {

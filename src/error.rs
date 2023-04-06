@@ -29,3 +29,15 @@ impl From<csv::Error> for Error {
         Error::CsvError(value.to_string())
     }
 }
+
+impl From<nom::error::Error<String>> for Error {
+    fn from(value: nom::error::Error<String>) -> Self {
+        Error::General(format!("nom error: {:?}", value.code))
+    }
+}
+
+impl From<nom::error::Error<&str>> for Error {
+    fn from(value: nom::error::Error<&str>) -> Self {
+        Error::General(format!("nom error: {:?}", value.code))
+    }
+}

@@ -1,0 +1,12 @@
+################################################################
+# abuse.ch URLhaus IDS ruleset (Snort / Suricata)              #
+# Last updated: 2023-04-07 14:01:40 (UTC)                      #
+#                                                              #
+# Terms Of Use: https://urlhaus.abuse.ch/api/                  #
+# For questions please contact urlhaus [at] abuse.ch           #
+################################################################
+#
+# url
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"URLhaus Known malware download URL detected (2601365)"; flow:established,from_client; content:"GET"; http_method; content:"/bin.sh"; http_uri; depth:7; isdataat:!1,relative; nocase; content:"125.44.252.197"; http_host; depth:14; isdataat:!1,relative; metadata:created_at 2023_04_07; reference:url, urlhaus.abuse.ch/url/2601365/; classtype:trojan-activity;sid:83464465; rev:1;)
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"URLhaus Known malware download URL detected (2601364)"; flow:established,from_client; content:"GET"; http_method; content:"/mozi.m"; http_uri; depth:7; isdataat:!1,relative; nocase; content:"42.224.196.54"; http_host; depth:13; isdataat:!1,relative; metadata:created_at 2023_04_07; reference:url, urlhaus.abuse.ch/url/2601364/; classtype:trojan-activity;sid:83464464; rev:1;)
+# Number of entries: 2

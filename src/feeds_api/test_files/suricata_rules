@@ -1,0 +1,13 @@
+################################################################
+# abuse.ch URLhaus IDS ruleset (Suricata only)                 #
+# Last updated: 2023-04-07 16:34:30 (UTC)                      #
+#                                                              #
+# Terms Of Use: https://urlhaus.abuse.ch/api/                  #
+# For questions please contact urlhaus [at] abuse.ch           #
+################################################################
+#
+# url
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"URLhaus Known malware download URL detected (2601521)"; flow:established,from_client; http.method; content:"GET"; http.uri; content:"/mozi.m"; depth:7; endswith; nocase; http.host; content:"117.210.187.210"; depth:15; isdataat:!1,relative; metadata:created_at 2023_04_07; reference:url, urlhaus.abuse.ch/url/2601521/; classtype:trojan-activity;sid:83464621; rev:1;)
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"URLhaus Known malware download URL detected (2601520)"; flow:established,from_client; http.method; content:"GET"; http.uri; content:"/mozi.m"; depth:7; endswith; nocase; http.host; content:"115.207.42.247"; depth:14; isdataat:!1,relative; metadata:created_at 2023_04_07; reference:url, urlhaus.abuse.ch/url/2601520/; classtype:trojan-activity;sid:83464620; rev:1;)
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"URLhaus Known malware download URL detected (2601512)"; flow:established,from_client; http.method; content:"GET"; http.uri; content:"/trc/trc.arm6"; depth:13; endswith; nocase; http.host; content:"87.121.113.72"; depth:13; isdataat:!1,relative; metadata:created_at 2023_04_07; reference:url, urlhaus.abuse.ch/url/2601512/; classtype:trojan-activity;sid:83464612; rev:1;)
+# Number of entries: 43107
