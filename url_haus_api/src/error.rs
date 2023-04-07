@@ -3,12 +3,12 @@ pub enum Error {
     Request(String),
     General(String),
     InvalidValue(String),
-    CsvError(String)
+    CsvError(String),
 }
 
 impl From<reqwest::Error> for Error {
     fn from(err: reqwest::Error) -> Self {
-        return Self::Request(format!("Reqwest error: {}", err.to_string()));
+        Self::Request(format!("Reqwest error: {}", err))
     }
 }
 

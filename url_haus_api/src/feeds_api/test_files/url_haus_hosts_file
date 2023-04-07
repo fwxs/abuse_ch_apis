@@ -1,0 +1,13 @@
+################################################################
+# abuse.ch URLhaus Host file                                   #
+# Last updated: 2023-04-07 18:43:22 (UTC)                      #
+#                                                              #
+# Terms Of Use: https://urlhaus.abuse.ch/api/                  #
+# For questions please contact urlhaus [at] abuse.ch           #
+################################################################
+#
+127.0.0.1	1008691.com
+127.0.0.1	121directmarketing.com
+127.0.0.1	12tkj5.my.id
+127.0.0.1	1717.1000uc.com
+# Number of entries: 1439

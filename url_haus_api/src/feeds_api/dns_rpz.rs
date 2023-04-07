@@ -4,7 +4,7 @@ use nom::AsChar;
 
 use crate::WebFetch;
 
-const URL_HAUS_DNS_RPZ_URL: &'static str = "https://urlhaus.abuse.ch/downloads/rpz/";
+const URL_HAUS_DNS_RPZ_URL: &str = "https://urlhaus.abuse.ch/downloads/rpz/";
 
 #[derive(Debug, Default, PartialEq)]
 pub struct SOARecord {
@@ -57,7 +57,7 @@ fn parse_soa_text(soa_text: &str) -> nom::IResult<&str, SOARecord> {
         _str.parse::<u32>()
     })(input)?;
 
-    return Ok((
+    Ok((
         input,
         SOARecord {
             mname: mname.to_string(),
@@ -68,17 +68,17 @@ fn parse_soa_text(soa_text: &str) -> nom::IResult<&str, SOARecord> {
             expire,
             ttl,
         },
-    ));
+    ))
 }
 
 impl FromStr for SOARecord {
     type Err = crate::error::Error;
 
     fn from_str(soa_text: &str) -> Result<Self, Self::Err> {
-        return match parse_soa_text(soa_text) {
+        match parse_soa_text(soa_text) {
             Ok((_, soa_record)) => Ok(soa_record),
             Err(err) => Err(crate::error::Error::General(err.to_string())),
-        };
+        }
     }
 }
 
@@ -111,24 +111,24 @@ fn parse_rpz_entry(rpz_str: &str) -> nom::IResult<&str, RPZEntry> {
         String::from,
     )(rpz_str)?;
 
-    return Ok((
+    Ok((
         rpz_str,
         RPZEntry {
-            domain: domain,
-            policy_action: policy_action,
-            comment: comment,
+            domain,
+            policy_action,
+            comment,
         },
-    ));
+    ))
 }
 
 impl FromStr for RPZEntry {
     type Err = crate::error::Error;
 
     fn from_str(rpz_entry: &str) -> Result<Self, Self::Err> {
-        return match parse_rpz_entry(rpz_entry) {
+        match parse_rpz_entry(rpz_entry) {
             Ok((_, rpz_entry)) => Ok(rpz_entry),
             Err(err) => Err(crate::error::Error::General(err.to_string())),
-        };
+        }
     }
 }
 
@@ -173,10 +173,10 @@ fn parse_rpz_file(rpz_file: &str) -> nom::IResult<&str, RPZFormat> {
             nom::character::complete::not_line_ending,
             nom::character::complete::newline,
         ),
-        |line| RPZEntry::from_str(line),
+        RPZEntry::from_str,
     ))(rpz_file)?;
 
-    return Ok((
+    Ok((
         rpz_file,
         RPZFormat {
             dns_entries,
@@ -184,7 +184,7 @@ fn parse_rpz_file(rpz_file: &str) -> nom::IResult<&str, RPZFormat> {
             soa_record,
             ttl,
         },
-    ));
+    ))
 }
 
 impl FromStr for RPZFormat {
@@ -199,9 +199,9 @@ impl FromStr for RPZFormat {
 }
 
 pub fn fetch_dns_rpz(web_client: &impl WebFetch) -> Result<RPZFormat, crate::error::Error> {
-    return Ok(
-        RPZFormat::from_str(web_client.fetch(URL_HAUS_DNS_RPZ_URL)?.as_str())?
-    );
+    RPZFormat::from_str(
+        web_client.fetch(URL_HAUS_DNS_RPZ_URL)?.as_str(),
+    )
 }
 
 #[cfg(test)]

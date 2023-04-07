@@ -2,9 +2,8 @@ use std::str::FromStr;
 
 use crate::WebFetch;
 
-const URL_HAUS_SNORT_RULES_URL: &'static str = "https://urlhaus.abuse.ch/downloads/ids/";
-const URL_HAUS_SURICATA_RULES_URL: &'static str =
-    "https://urlhaus.abuse.ch/downloads/suricata-ids/";
+const URL_HAUS_SNORT_RULES_URL: &str = "https://urlhaus.abuse.ch/downloads/ids/";
+const URL_HAUS_SURICATA_RULES_URL: &str = "https://urlhaus.abuse.ch/downloads/suricata-ids/";
 
 #[derive(Debug, Default)]
 pub struct SnortRule {
@@ -69,7 +68,7 @@ fn parse_snort_rule(snort_rule: &str) -> nom::IResult<&str, SnortRule> {
         }),
     )(snort_rule)?;
 
-    return Ok((
+    Ok((
         snort_rule,
         SnortRule {
             action,
@@ -81,7 +80,7 @@ fn parse_snort_rule(snort_rule: &str) -> nom::IResult<&str, SnortRule> {
             src_addr,
             src_port,
         },
-    ));
+    ))
 }
 
 impl FromStr for SnortRule {
@@ -100,13 +99,12 @@ pub fn fetch_snort_rules(
 ) -> Result<Vec<SnortRule>, crate::error::Error> {
     let response = web_client.fetch(URL_HAUS_SNORT_RULES_URL)?;
 
-    return Ok(response
+    Ok(response
         .lines()
-        .into_iter()
-        .skip_while(|line| line.starts_with("#"))
+        .skip_while(|line| line.starts_with('#'))
         .map(SnortRule::from_str)
         .filter_map(|res_snort_rule| res_snort_rule.ok())
-        .collect());
+        .collect())
 }
 
 pub fn fetch_suricata_rules(
@@ -114,13 +112,12 @@ pub fn fetch_suricata_rules(
 ) -> Result<Vec<SnortRule>, crate::error::Error> {
     let response = web_client.fetch(URL_HAUS_SURICATA_RULES_URL)?;
 
-    return Ok(response
+    Ok(response
         .lines()
-        .into_iter()
-        .skip_while(|line| line.starts_with("#"))
+        .skip_while(|line| line.starts_with('#'))
         .map(SnortRule::from_str)
         .filter_map(|res_snort_rule| res_snort_rule.ok())
-        .collect());
+        .collect())
 }
 
 #[cfg(test)]
