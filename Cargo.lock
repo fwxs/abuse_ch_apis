@@ -398,6 +398,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "malware_bazaar_api"
+version = "0.1.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -1,2 +1,2 @@
 [workspace]
-members = ["url_haus_api"]
+members = ["url_haus_api", "malware_bazaar_api"]
