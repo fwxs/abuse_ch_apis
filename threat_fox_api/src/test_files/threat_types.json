@@ -1,0 +1,20 @@
+{
+    "query_status": "ok",
+    "data": {
+        "1": {
+            "ioc_type": "url",
+            "fk_threat_type": "payload_delivery",
+            "description": "URL that delivers a malware payload"
+        },
+        "2": {
+            "ioc_type": "domain",
+            "fk_threat_type": "payload_delivery",
+            "description": "Domain name that delivers a malware payload"
+        },
+        "3": {
+            "ioc_type": "ip:port",
+            "fk_threat_type": "payload_delivery",
+            "description": "ip:port combination that delivery a malware payload"
+        }
+    }
+}
