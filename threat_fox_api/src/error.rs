@@ -1,39 +1,103 @@
+//! # Error Types
+//!
+//! This module defines error types used throughout the Threat Fox API client.
+//! All errors are variants of the [`Error`] enum and can be converted from various
+//! standard library and external crate error types.
+
 use std::convert::Infallible;
 
+/// Represents all possible errors that can occur in the Threat Fox API client.
+///
+/// This enum provides variants for different categories of errors encountered during
+/// API operations, HTTP requests, and JSON serialization/deserialization.
+///
+/// # Variants
+///
+/// * `Request` - An HTTP request error from the reqwest library (network, connection, timeout, etc.)
+/// * `General` - A general-purpose error with a custom message
+/// * `QueryError` - An error returned by the API (e.g., invalid query, no results found)
+/// * `InvalidValue` - A validation error when a value doesn't meet requirements (e.g., invalid days range)
+/// * `InvalidJSON` - A JSON parsing or serialization error
+/// * `Conversion` - An infallible conversion error (should rarely occur in practice)
 #[derive(Debug, PartialEq, Clone)]
 pub enum Error {
+    /// HTTP request error from the reqwest library.
+    ///
+    /// Wraps a string representation of the underlying request error.
+    /// Examples include network connectivity issues, timeouts, and HTTP status errors.
     Request(String),
+
+    /// General-purpose error variant.
+    ///
+    /// Used for custom error messages and errors that don't fit other specific categories.
     General(String),
+
+    /// API query error variant.
+    ///
+    /// Represents an error response from the Threat Fox API itself,
+    /// such as "unknown_operation" or "invalid query".
     QueryError(String),
+
+    /// Invalid value error variant.
+    ///
+    /// Indicates that a value provided to a query doesn't meet validation constraints.
+    /// For example, when days parameter is outside the valid range (1-7) or limit > 1000.
     InvalidValue(String),
+
+    /// JSON parsing/serialization error variant.
+    ///
+    /// Represents failures when deserializing API responses into structs or
+    /// serializing data structures to JSON.
     InvalidJSON(String),
-    Conversion(String)
+
+    /// Conversion error variant.
+    ///
+    /// Represents an infallible conversion error. This variant is rarely used in practice
+    /// as infallible conversions should not fail.
+    Conversion(String),
 }
 
+/// Converts a reqwest error into a [`Error::Request`].
+///
+/// This implementation allows reqwest errors to be automatically converted using the `?` operator
+/// or `into()` method in functions that return `Result<T, Error>`.
 impl From<reqwest::Error> for Error {
     fn from(err: reqwest::Error) -> Self {
         Self::Request(format!("Reqwest error: {}", err))
     }
 }
 
+/// Converts a static string reference into a [`Error::General`].
+///
+/// This implementation allows `&'static str` values to be used with the `?` operator
+/// in functions that return `Result<T, Error>`.
 impl From<&'static str> for Error {
     fn from(str_err: &'static str) -> Self {
         Error::General(String::from(str_err))
     }
 }
 
+/// Converts an owned String into a [`Error::General`].
+///
+/// This implementation allows dynamic strings to be converted into errors.
 impl From<String> for Error {
     fn from(str_err: String) -> Self {
         Error::General(str_err)
     }
 }
 
+/// Converts a serde_json error into a [`Error::InvalidJSON`].
+///
+/// This implementation allows JSON parsing/serialization errors to be automatically converted.
 impl From<serde_json::Error> for Error {
     fn from(value: serde_json::Error) -> Self {
         Self::InvalidJSON(value.to_string())
     }
 }
 
+/// Converts an Infallible error into a [`Error::Conversion`].
+///
+/// This implementation is included for completeness but infallible errors should never occur.
 impl From<Infallible> for Error {
     fn from(value: Infallible) -> Self {
         Self::Conversion(value.to_string())
